@@ -1,4 +1,3 @@
-import java.util.Locale
 import java.util.Locale.getDefault
 
 val celSize:Int = 3
@@ -7,8 +6,13 @@ val numCels:Int = 5
 var posx: Int = 1
 var posy: Int = 1
 
+var foodx: Int = (1..numCels).random()
+var foody: Int = (1..numCels).random()
+
+var counter = 0
 fun main() {
     while (true) {
+        println("Counter: $counter")
         printGrid()
         move()
     }
@@ -19,7 +23,9 @@ fun printGrid() {
     println()
     for(y in 1..numCels) {
         for (x in 1..celSize) {
-            if (posy == y && x == (1+celSize/2)) playerLine(celSize,numCels)
+            val hasPlayer = posy == y
+            val hasFood = foody == y
+            if ( (hasPlayer || hasFood) && x == (1+celSize/2)) playerFoodLine(celSize,numCels, hasPlayer,hasFood)
             else cellLine(celSize,numCels)
 
             println()
@@ -43,11 +49,12 @@ fun cellLine(celSize: Int, numCels: Int, separator:Char = '#') {
 }
 
 
-fun playerLine(celSize: Int, numCels: Int, separator:Char = '#') {
+fun playerFoodLine(celSize: Int, numCels: Int, hasPlayer:Boolean,hasFood:Boolean, separator:Char = '#') {
     print(separator)
     for (x in 1..numCels) {
         for (y in 1..celSize) {
-            if (posx == x && y == (celSize/2+1)) print("P")
+            if (hasPlayer && posx == x && y == (celSize/2+1)) print("P")
+            else if (hasFood && foodx == x && y == (celSize/2+1)) print("X")
             else print(" ")
         }
         print(separator)
@@ -64,5 +71,9 @@ fun move() {
         "D" -> if (posx<numCels) posx++
         else Unit
     }
-
+    if (posx == foodx && posy == foody) {
+        counter++
+        foodx = (1..celSize).random()
+        foody = (1..numCels).random()
+    }
 }
