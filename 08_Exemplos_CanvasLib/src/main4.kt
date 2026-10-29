@@ -7,10 +7,6 @@ import move
 import Point
 import plus
 import Offset
-import main2.COLOR
-import main2.CROSS_COLOR
-import main2.CROSS_THICK
-import main2.RADIUS
 
 const val WIDTH = 800
 const val HEIGHT = 600
@@ -19,7 +15,9 @@ const val RADIUS = 100
 const val COLOR = GREEN
 const val CROSS_COLOR = RED
 const val CROSS_THICK = 5
-const val MOVE_SIZE = 10
+const val MOVE_SIZE = 3
+const val FRAMES = 30
+
 
 fun Canvas.draw(ball: Ball) {
     val x = ball.center.x
@@ -38,7 +36,15 @@ fun main() {
         val canvas = Canvas(WIDTH,HEIGHT,WHITE)
         var ball = Ball(Point(canvas.width/2,canvas.height/2),RADIUS,COLOR)
         canvas.draw(ball)
-       //     canvas.erase()
+        canvas.onTimeProgress(1000/FRAMES) {
+            ball = ball.move(Offset(0,MOVE_SIZE))
+            canvas.erase()
+            canvas.draw(ball)
+        }
+        canvas.onMouseDown { mouse ->
+            ball = ball.copy(center = Point(mouse.x,mouse.y))
+        }
+
 
     }
     onFinish {  }
