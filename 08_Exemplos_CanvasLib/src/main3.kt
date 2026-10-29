@@ -35,7 +35,7 @@ fun main() {
         canvas.onKeyPressed { key ->
             val move:Offset =
                 when (key.code) {
-                    DOWN_CODE -> Offset(0,MOVE_SIZE)
+                     in listOf(DOWN_CODE,'S'.code,'s'.code) -> Offset(0,MOVE_SIZE)
                     UP_CODE -> Offset(0,-MOVE_SIZE)
                     LEFT_CODE -> Offset(-MOVE_SIZE,0)
                     RIGHT_CODE -> Offset(MOVE_SIZE,0)
