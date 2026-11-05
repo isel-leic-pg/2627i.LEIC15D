@@ -5,8 +5,8 @@ import pt.isel.canvas.*
 import Ball5
 import move
 import Point
-import plus
 import Offset
+import colision
 
 const val WIDTH = 800
 const val HEIGHT = 600
@@ -40,6 +40,7 @@ fun main() {
         canvas.draw(ball)
         canvas.onTimeProgress(1000/FRAMES) {
             ball = ball.move()
+            ball = ball.colision(canvas)
             canvas.erase()
             canvas.draw(ball)
         }
