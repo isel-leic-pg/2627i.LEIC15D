@@ -1,6 +1,15 @@
 import pt.isel.canvas.*
 
 fun main() {
+    // alguns exemplos de utilização de Enumerados
+    for (dir in Direction.entries)
+        println(dir)
+    println(Direction.UP.ordinal)
+    println(Direction.entries[2])
+    println(""+Direction.entries.size+" "+
+            Direction.entries.indices)
+    println(Direction.UP > Direction.LEFT)
+
     onStart{
         Canvas(800,500, WHITE).startGame()
     }
