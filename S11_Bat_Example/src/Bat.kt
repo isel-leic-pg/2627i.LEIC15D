@@ -1,3 +1,5 @@
+import pt.isel.canvas.*
+
 private const val NUM_SPRITES = 3
 private const val SPRITE_SIDE = 32
 
@@ -28,3 +30,30 @@ fun Bat.animate(): Bat =
         else -> copy(sprite =sprite + spriteInc)
     }
 
+fun Bat.move(): Bat {
+    var newx = x + direction.dx * velocity
+    var newy = y + direction.dy * velocity
+    var newdir = direction
+    // Atenção se o morcego tiver 20px e o intervalo for de 100..200
+    // o morcego irá ocupar o espaço de 100 a 220
+    // Estou a considerar neste caso que dariamos 100..180 se quisessemos
+    // que não ultrapassasse os 200
+    if (newx !in rangex) {
+        newdir = direction.turn()
+        newx = if (newx > rangex.last) rangex.last
+        else rangex.first
+    }
+    if (newy !in rangey) {
+        newdir = direction.turn()
+        newy = if (newy > rangey.last) rangey.last
+        else rangey.first
+    }
+    return copy(x=newx,y=newy,direction=newdir)
+}
+
+fun Canvas.show(bat:Bat) {
+    val x = SPRITE_SIDE * bat.sprite
+    val sizeStr = "$x,0,$SPRITE_SIDE,$SPRITE_SIDE"
+    drawImage("bat|$sizeStr",bat.x,bat.y,
+           bat.size,bat.size)
+}
